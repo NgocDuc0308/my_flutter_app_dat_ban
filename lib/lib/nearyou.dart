@@ -59,7 +59,10 @@ class NearYouPage extends StatelessWidget {
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
-                  child: const Text('Thay đổi', style: TextStyle(fontSize: 16)),
+                  child: const Text(
+                    'Thay đổi',
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  ),
                 ),
               ),
               const SizedBox(height: 10),

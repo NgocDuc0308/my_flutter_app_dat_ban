@@ -1,18 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app_dat_ban/lib/account.dart';
 import 'package:app_dat_ban/lib/nearyou.dart';
-
-// Trang giả lập cho "Tìm kiếm"
-class SearchPage extends StatelessWidget {
-  const SearchPage({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Tìm Kiếm')),
-      body: const Center(child: Text('Đây là trang Tìm Kiếm')),
-    );
-  }
-}
+import 'package:app_dat_ban/lib/search.dart';
 
 // Trang giả lập cho "Thêm"
 class MorePage extends StatelessWidget {

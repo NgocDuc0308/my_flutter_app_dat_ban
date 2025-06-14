@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Header: Đăng nhập
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 50),
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [Color(0xFF6E0000), Color(0xFFFF2323)],
@@ -19,44 +20,49 @@ class AccountPage extends StatelessWidget {
                 end: Alignment.bottomCenter,
               ),
             ),
-            child: Column(
-              children: [
-                const Text(
-                  'Đăng nhập để cải thiện trải nghiệm',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-                const SizedBox(height: 10),
-                OutlinedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
-                    );
-                  },
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Colors.white),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24),
+            child: SafeArea(
+              bottom: false,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 40),
+                child: Column(
+                  children: [
+                    const Text(
+                      'Đăng nhập để cải thiện trải nghiệm',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 110,
-                      vertical: 10,
+                    const SizedBox(height: 10),
+                    OutlinedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => LoginPage()),
+                        );
+                      },
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: Colors.white),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 110,
+                          vertical: 10,
+                        ),
+                      ),
+                      child: const Text(
+                        'Đăng nhập / Đăng ký',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
-                  ),
-                  child: const Text(
-                    'Đăng nhập / Đăng ký',
-                    style: TextStyle(color: Colors.white),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
 
-          const SizedBox(height: 12),
-
-          // Danh sách mục
-          Expanded(
-            child: ListView(
+          // Danh sách mục cố định
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: Column(
               children: [
                 _buildMenuItem(Icons.person_outline, 'Thông tin tài khoản'),
                 _buildMenuItem(Icons.history, 'Lịch sử giao dịch'),
@@ -72,6 +78,7 @@ class AccountPage extends StatelessWidget {
 
   Widget _buildMenuItem(IconData icon, String title) {
     return ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16),
       leading: Icon(icon, color: Colors.grey[600]),
       title: Text(title),
       trailing: const Icon(Icons.chevron_right),
