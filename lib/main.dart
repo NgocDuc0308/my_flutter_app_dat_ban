@@ -5,6 +5,8 @@ import 'package:app_dat_ban/lib/intro.dart';
 // import 'package:app_dat_ban/lib/intro.dart';
 // import 'package:app_dat_ban/lib/account.dart';
 // import 'package:app_dat_ban/lib/nearyou.dart';
+// import 'package:app_dat_ban/lib/detailchinhanh.dart';
+// import 'package:app_dat_ban/lib/order.dart';
 
 void main() {
   runApp(const MainApp());

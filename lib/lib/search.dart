@@ -7,7 +7,7 @@ class SearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Map<String, String>> branches = [
       {
-        'image': 'assets/imgChiNhanh/chinhanh1.png',
+        'image': 'assets/imgChiNhanh/chinhanh1.jpg',
         'name': 'Chi nhánh 1',
         'address': 'Số 11 Nguyễn Văn Quá, P. Đông Hưng Thuận, Q.12',
         'action': 'Đặt bàn giữ chỗ',
@@ -19,7 +19,7 @@ class SearchPage extends StatelessWidget {
         'action': 'Đặt bàn giữ chỗ',
       },
       {
-        'image': 'assets/imgChiNhanh/chinhanh3.jpg',
+        'image': 'assets/imgChiNhanh/chinhanh3.png',
         'name': 'Chi nhánh 3',
         'address': 'Số 62 Hoàng Văn Thụ, P. Đông Hưng Thuận, Q.3',
         'action': 'Đặt bàn giữ chỗ',

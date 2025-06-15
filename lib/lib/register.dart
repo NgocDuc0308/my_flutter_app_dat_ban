@@ -36,11 +36,14 @@ class RegisterPage extends StatelessWidget {
                         color: Colors.black12,
                         blurRadius: 10,
                         offset: Offset(0, -2),
-                      )
-                    ]
+                      ),
+                    ],
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 40.0),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 30.0,
+                      vertical: 40.0,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -51,11 +54,23 @@ class RegisterPage extends StatelessWidget {
                         // Form fields
                         _buildTextField(label: 'Họ tên', hint: 'Họ tên'),
                         const SizedBox(height: 20),
-                        _buildTextField(label: 'Email', hint: 'abc@gmail.com', keyboardType: TextInputType.emailAddress),
+                        _buildTextField(
+                          label: 'Email',
+                          hint: 'abc@gmail.com',
+                          keyboardType: TextInputType.emailAddress,
+                        ),
                         const SizedBox(height: 20),
-                        _buildTextField(label: 'Mật khẩu', hint: '********', obscureText: true),
+                        _buildTextField(
+                          label: 'Mật khẩu',
+                          hint: '********',
+                          obscureText: true,
+                        ),
                         const SizedBox(height: 20),
-                        _buildTextField(label: 'Xác nhận mật khẩu', hint: '********', obscureText: true),
+                        _buildTextField(
+                          label: 'Xác nhận mật khẩu',
+                          hint: '********',
+                          obscureText: true,
+                        ),
                         const SizedBox(height: 40),
 
                         // Nút Đăng ký
@@ -175,10 +190,7 @@ class RegisterPage extends StatelessWidget {
       child: Ink(
         decoration: BoxDecoration(
           gradient: const LinearGradient(
-            colors: [
-              Color(0xFFB71C1C),
-              Color(0xFFE53935),
-            ],
+            colors: [Color(0xFFB71C1C), Color(0xFFE53935)],
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
@@ -205,21 +217,18 @@ class RegisterPage extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
-          "Bạn đã có mật khẩu ",
-          style: TextStyle(color: Colors.grey),
-        ),
+        const Text("Bạn đã có mật khẩu ", style: TextStyle(color: Colors.grey)),
         GestureDetector(
           onTap: () {
             // TODO: Thêm logic điều hướng về trang đăng nhập
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => LoginPage()),
+            );
           },
           child: const Text(
             'Đăng nhập',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
           ),
         ),
       ],

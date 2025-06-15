@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:app_dat_ban/lib/account.dart';
 import 'package:app_dat_ban/lib/nearyou.dart';
 import 'package:app_dat_ban/lib/search.dart';
+import 'package:app_dat_ban/lib/detailchinhanh.dart';
 
-// Trang giả lập cho "Thêm"
 class MorePage extends StatelessWidget {
   const MorePage({super.key});
   @override
@@ -25,8 +25,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
-  // Danh sách các trang tương ứng với BottomNavigationBar
-  // Đã thêm các trang giả lập để khớp với 5 mục
   static const List<Widget> _widgetOptions = <Widget>[
     HomeContent(),
     NearYouPage(),
@@ -44,10 +42,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // VẤN ĐỀ 1: Thêm 'body' để hiển thị nội dung trang được chọn
       body: _widgetOptions.elementAt(_selectedIndex),
-
-      // Thanh điều hướng dưới cùng (BottomNavigationBar)
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -98,10 +93,37 @@ class HomeContent extends StatefulWidget {
 }
 
 class _HomeContentState extends State<HomeContent> {
+  final List<Map<String, String>> branches = [
+    {
+      'image': 'assets/imgChiNhanh/chinhanh1.jpg',
+      'name': 'Chi nhánh 1',
+      'address': 'Số 11 Nguyễn Văn Quá, P. Đông Hưng Thuận, Q.12',
+    },
+    {
+      'image': 'assets/imgChiNhanh/chinhanh2.jpg',
+      'name': 'Chi nhánh 2',
+      'address': 'Số 23 Chế Lan Viên, P. Tây Thạnh, Q. Tân Phú',
+    },
+    {
+      'image': 'assets/imgChiNhanh/chinhanh3.png',
+      'name': 'Chi nhánh 3',
+      'address': 'Số 62 Hoàng Văn Thụ, P. Đông Hưng Thuận, Q.3',
+    },
+    {
+      'image': 'assets/imgChiNhanh/chinhanh4.png',
+      'name': 'Chi nhánh 4',
+      'address': 'Số 38 Lý Tự Trọng, P. Đông Hưng Thuận, Q.10',
+    },
+    {
+      'image': 'assets/imgChiNhanh/chinhanh5.png',
+      'name': 'Chi nhánh 5',
+      'address': 'Số 42 Quang Trung, P. Đông Hưng Thuận, Q.Tân Phú',
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Thanh ứng dụng (AppBar)
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
@@ -111,10 +133,10 @@ class _HomeContentState extends State<HomeContent> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              children: [
-                const Icon(Icons.location_on, color: Colors.red, size: 24),
-                const SizedBox(width: 4),
-                const Text(
+              children: const [
+                Icon(Icons.location_on, color: Colors.red, size: 24),
+                SizedBox(width: 4),
+                Text(
                   'TP. Hồ Chí Minh',
                   style: TextStyle(
                     color: Colors.red,
@@ -122,7 +144,7 @@ class _HomeContentState extends State<HomeContent> {
                     fontSize: 18,
                   ),
                 ),
-                const Icon(Icons.arrow_drop_down, color: Colors.red),
+                Icon(Icons.arrow_drop_down, color: Colors.red),
               ],
             ),
             const SizedBox(height: 8),
@@ -150,8 +172,6 @@ class _HomeContentState extends State<HomeContent> {
           ),
         ],
       ),
-
-      // Nội dung chính của trang
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -172,7 +192,6 @@ class _HomeContentState extends State<HomeContent> {
     );
   }
 
-  // Widget xây dựng tiêu đề cho mỗi phần
   Widget _buildSectionHeader(String title) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -189,109 +208,79 @@ class _HomeContentState extends State<HomeContent> {
     );
   }
 
-  // Widget xây dựng danh sách chi nhánh (cuộn ngang)
   Widget _buildBranchList() {
-    // Dữ liệu giả
-    final List<Map<String, String>> branches = [
-      {
-        'image': 'assets/imgChiNhanh/chinhanh1.png',
-        'name': 'Chi nhánh 1',
-        'address': 'Số 11 Nguyễn Văn Quá, P. Đông Hưng Thuận, Q.12',
-      },
-      {
-        'image': 'assets/imgChiNhanh/chinhanh2.jpg',
-        'name': 'Chi nhánh 2',
-        'address': 'Số 23 Chế Lan Viên, P. Tây Thạnh, Q. Tân Phú',
-      },
-      {
-        'image': 'assets/imgChiNhanh/chinhanh3.jpg',
-        'name': 'Chi nhánh 3',
-        'address': 'Số 62 Hoàng Văn Thụ, P. Đông Hưng Thuận, Q.3',
-      },
-      {
-        'image': 'assets/imgChiNhanh/chinhanh4.png',
-        'name': 'Chi nhánh 4',
-        'address': 'Số 38 Lý Tự Trọng, P. Đông Hưng Thuận, Q.10',
-      },
-      {
-        'image': 'assets/imgChiNhanh/chinhanh5.png',
-        'name': 'Chi nhánh 5',
-        'address': 'Số 42 Quang Trung, P. Đông Hưng Thuận, Q.Tân Phú',
-      },
-    ];
-
     return SizedBox(
       height: 240,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: branches.length,
         itemBuilder: (context, index) {
+          final branch = branches[index];
           return _buildBranchCard(
-            branches[index]['image']!,
-            branches[index]['name']!,
-            branches[index]['address']!,
+            branch['image']!,
+            branch['name']!,
+            branch['address']!,
           );
         },
       ),
     );
   }
 
-  // Widget cho một thẻ chi nhánh
   Widget _buildBranchCard(String imagePath, String name, String address) {
-    return Container(
-      width: 160,
-      margin: const EdgeInsets.only(right: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8.0),
-            child: Image.asset(
-              imagePath,
-              height: 120,
-              width: double.infinity,
-              fit: BoxFit.cover,
-              // Xử lý lỗi nếu không tìm thấy ảnh
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  height: 120,
-                  color: Colors.grey[300],
-                  child: const Icon(Icons.image_not_supported),
-                );
-              },
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailChiNhanhPage(
+              imagePath: imagePath,
+              name: name,
+              address: address,
             ),
           ),
-          const SizedBox(height: 8),
-          Text(
-            name,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(height: 4),
-          Text(
-            address,
-            style: const TextStyle(fontSize: 12, color: Colors.grey),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Đặt bàn giữ chỗ',
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.red[700],
-              fontWeight: FontWeight.bold,
+        );
+      },
+      child: Container(
+        width: 160,
+        margin: const EdgeInsets.only(right: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.asset(
+                imagePath,
+                height: 120,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: 8),
+            Text(
+              name,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              address,
+              style: const TextStyle(fontSize: 12, color: Colors.grey),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Đặt bàn giữ chỗ',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.red[700],
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  // Widget xây dựng danh sách ưu đãi (dọc)
   Widget _buildDealsList() {
-    // Dữ liệu giả
     final List<Map<String, String>> deals = [
       {
         'image': 'assets/imgUuDai/uudai1.jpg',
@@ -319,65 +308,56 @@ class _HomeContentState extends State<HomeContent> {
         'expiry': '14/07/2025',
       },
     ];
+
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: deals.length,
       itemBuilder: (context, index) {
-        return _buildDealCard(
-          deals[index]['image']!,
-          deals[index]['title']!,
-          deals[index]['expiry']!,
-        );
+        final deal = deals[index];
+        return _buildDealCard(deal['image']!, deal['title']!, deal['expiry']!);
       },
     );
   }
 
-  // Widget cho một thẻ ưu đãi
   Widget _buildDealCard(String imagePath, String title, String expiry) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8.0),
-            child: Image.asset(
-              imagePath,
-              width: 100,
-              height: 100,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.grey[300],
-                  child: const Icon(Icons.image_not_supported),
-                );
-              },
+    return InkWell(
+      onTap: () => debugPrint('Đã nhấn vào $title'),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 16.0),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.asset(
+                imagePath,
+                width: 100,
+                height: 100,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Thời gian áp dụng: $expiry',
-                  style: const TextStyle(fontSize: 14, color: Colors.grey),
-                ),
-              ],
+                  const SizedBox(height: 8),
+                  Text(
+                    'Thời gian áp dụng: $expiry',
+                    style: const TextStyle(fontSize: 14, color: Colors.grey),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
