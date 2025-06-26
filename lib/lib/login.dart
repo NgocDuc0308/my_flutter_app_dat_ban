@@ -1,32 +1,55 @@
 import 'package:app_dat_ban/lib/home.dart';
 import 'package:app_dat_ban/lib/register.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  Future<void> _login() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedEmail = prefs.getString('registered_email') ?? '';
+    final savedPassword = prefs.getString('registered_password') ?? '';
+
+    final enteredEmail = _emailController.text.trim();
+    final enteredPassword = _passwordController.text;
+
+    if (enteredEmail == savedEmail && enteredPassword == savedPassword) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Sai email hoặc mật khẩu'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      // Đặt màu nền để tránh bất kỳ màu lạ nào có thể xuất hiện
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          // Lớp 1: Nền màu đỏ ở phía sau
           _buildRedBackground(screenHeight),
-
-          // Lớp 2: Form đăng nhập màu trắng
-          // Chúng ta dùng một SingleChildScrollView làm widget gốc để toàn bộ form có thể cuộn được
           SingleChildScrollView(
             child: Column(
               children: [
-                // Khoảng trống trong suốt ở trên cùng để đẩy form xuống
-                // Chiều cao của nó quyết định vị trí bắt đầu của form trắng
-                SizedBox(height: screenHeight * 0.2),
-
-                // Đây là container chứa toàn bộ form trắng
+                SizedBox(height: screenHeight * 0.15),
                 Container(
                   decoration: const BoxDecoration(
                     color: Colors.white,
@@ -43,31 +66,11 @@ class LoginPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        // Logo
-                        const Column(
-                          children: [
-                            Text(
-                              'SeatMe',
-                              style: TextStyle(
-                                color: Color(0xFFE53935),
-                                fontSize: 32,
-                                fontWeight: FontWeight.bold,
-                                height: 1.0,
-                              ),
-                            ),
-                            Text(
-                              'ĐẶT BÀN ONLINE',
-                              style: TextStyle(
-                                color: Color(0xFFE53935),
-                                fontSize: 12,
-                                letterSpacing: 1.5,
-                              ),
-                            ),
-                          ],
+                        Image.asset(
+                          'assets/images/logoxoanen.png',
+                          height: 200,
                         ),
-                        const SizedBox(height: 40),
-
-                        // Gmail
+                        const SizedBox(height: 10),
                         const Text(
                           'Gmail',
                           style: TextStyle(
@@ -76,11 +79,12 @@ class LoginPage extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        TextFormField(
-                          initialValue: 'abc@gmail.com',
+                        const SizedBox(height: 5),
+                        TextField(
+                          controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
+                            hintText: 'abc@gmail.com',
                             contentPadding: const EdgeInsets.symmetric(
                               vertical: 15.0,
                               horizontal: 15.0,
@@ -98,14 +102,12 @@ class LoginPage extends StatelessWidget {
                               ),
                             ),
                             suffixIcon: const Icon(
-                              Icons.check,
+                              Icons.email,
                               color: Colors.grey,
                             ),
                           ),
                         ),
                         const SizedBox(height: 20),
-
-                        // Mật khẩu
                         const Text(
                           'Mật khẩu',
                           style: TextStyle(
@@ -115,10 +117,11 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        TextFormField(
-                          initialValue: '*********',
+                        TextField(
+                          controller: _passwordController,
                           obscureText: true,
                           decoration: InputDecoration(
+                            hintText: '********',
                             contentPadding: const EdgeInsets.symmetric(
                               vertical: 15.0,
                               horizontal: 15.0,
@@ -136,14 +139,12 @@ class LoginPage extends StatelessWidget {
                               ),
                             ),
                             suffixIcon: const Icon(
-                              Icons.visibility_off,
+                              Icons.lock,
                               color: Colors.grey,
                             ),
                           ),
                         ),
                         const SizedBox(height: 10),
-
-                        // Quên mật khẩu
                         Align(
                           alignment: Alignment.centerRight,
                           child: TextButton(
@@ -158,17 +159,8 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 20),
-
-                        // Nút Đăng nhập
                         ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomePage(),
-                              ),
-                            );
-                          },
+                          onPressed: _login,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.transparent,
                             shadowColor: Colors.transparent,
@@ -199,8 +191,6 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 40),
-
-                        // Đăng ký
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -213,7 +203,7 @@ class LoginPage extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => RegisterPage(),
+                                    builder: (context) => const RegisterPage(),
                                   ),
                                 );
                               },
@@ -239,7 +229,6 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  /// Widget này không thay đổi, vẫn là nền đỏ phía trên
   Widget _buildRedBackground(double screenHeight) {
     return Container(
       height: screenHeight * 0.35,

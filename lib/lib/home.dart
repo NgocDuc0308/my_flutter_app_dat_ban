@@ -3,9 +3,11 @@ import 'package:app_dat_ban/lib/account.dart';
 import 'package:app_dat_ban/lib/nearyou.dart';
 import 'package:app_dat_ban/lib/search.dart';
 import 'package:app_dat_ban/lib/detailchinhanh.dart';
+import 'package:app_dat_ban/lib/detail/allchinhanh.dart';
 
 class MorePage extends StatelessWidget {
   const MorePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -128,41 +130,20 @@ class _HomeContentState extends State<HomeContent> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         elevation: 0,
-        toolbarHeight: 100,
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: const [
-                Icon(Icons.location_on, color: Colors.red, size: 24),
-                SizedBox(width: 4),
-                Text(
-                  'TP. Hồ Chí Minh',
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-                Icon(Icons.arrow_drop_down, color: Colors.red),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Container(
-              height: 36,
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const TextField(
-                decoration: InputDecoration(
-                  hintText: 'Tìm nhà hàng, món ăn...',
-                  prefixIcon: Icon(Icons.search, color: Colors.grey),
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(vertical: 10.0),
-                ),
+        toolbarHeight: 60,
+        title: Row(
+          children: const [
+            Icon(Icons.location_on, color: Colors.red, size: 24),
+            SizedBox(width: 4),
+            Text(
+              'TP. Hồ Chí Minh',
+              style: TextStyle(
+                color: Colors.red,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
               ),
             ),
+            Icon(Icons.arrow_drop_down, color: Colors.red),
           ],
         ),
         actions: [
@@ -178,7 +159,7 @@ class _HomeContentState extends State<HomeContent> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildSectionHeader('Các chi nhánh nhà hàng'),
+              _buildSectionHeader('TOP chi nhánh nhà hàng'),
               const SizedBox(height: 16),
               _buildBranchList(),
               const SizedBox(height: 24),
@@ -200,9 +181,25 @@ class _HomeContentState extends State<HomeContent> {
           title,
           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        Text(
-          'Xem tất cả',
-          style: TextStyle(fontSize: 14, color: Colors.red[700]),
+        GestureDetector(
+          onTap: () {
+            if (title == 'TOP chi nhánh nhà hàng') {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AllChiNhanhPage(),
+                ),
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Chức năng đang phát triển')),
+              );
+            }
+          },
+          child: Text(
+            'Xem tất cả',
+            style: TextStyle(fontSize: 14, color: Colors.red[700]),
+          ),
         ),
       ],
     );

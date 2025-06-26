@@ -179,29 +179,79 @@ class DetailChiNhanhPage extends StatelessWidget {
   List<Widget> _buildRelatedBranches(BuildContext context) {
     final List<Map<String, String>> branches = [
       {
-        'image': 'assets/imgChiNhanh/chinhanh1.jpg',
         'name': 'Chi nhánh 1',
         'address': 'Số 11 Nguyễn Văn Quá, P. Đông Hưng Thuận, Q.12',
+        'image': 'assets/imgChiNhanh/chinhanh1.jpg',
       },
       {
-        'image': 'assets/imgChiNhanh/chinhanh2.jpg',
         'name': 'Chi nhánh 2',
         'address': 'Số 23 Chế Lan Viên, P. Tây Thạnh, Q. Tân Phú',
+        'image': 'assets/imgChiNhanh/chinhanh2.jpg',
       },
       {
-        'image': 'assets/imgChiNhanh/chinhanh3.png',
         'name': 'Chi nhánh 3',
-        'address': 'Số 62 Hoàng Văn Thụ, P. Đông Hưng Thuận, Q.3',
+        'address': 'Số 62 Hoàng Văn Thụ, P. Đông Hưng Thuận, Q.12',
+        'image': 'assets/imgChiNhanh/chinhanh3.png',
       },
       {
-        'image': 'assets/imgChiNhanh/chinhanh4.png',
         'name': 'Chi nhánh 4',
-        'address': 'Số 38 Lý Tự Trọng, P. Đông Hưng Thuận, Q.10',
+        'address': 'Số 19 Quang Trung, P. Tây Thạnh, Q.10',
+        'image': 'assets/imgChiNhanh/chinhanh4.png',
       },
       {
-        'image': 'assets/imgChiNhanh/chinhanh5.png',
         'name': 'Chi nhánh 5',
-        'address': 'Số 42 Quang Trung, P. Đông Hưng Thuận, Q.Tân Phú',
+        'address': 'Số 55 Lý Thái Tổ, P. Tây Thạnh, Q.3',
+        'image': 'assets/imgChiNhanh/chinhanh5.png',
+      },
+      {
+        'name': 'Chi nhánh 6',
+        'address': 'Số 88 Phạm Văn Đồng, P. Hiệp Bình Chánh, Q.Thủ Đức',
+        'image': 'assets/imgChiNhanh/chinhanh6.jpg',
+      },
+      {
+        'name': 'Chi nhánh 7',
+        'address': 'Số 77 Nguyễn Oanh, P.10, Q.Gò Vấp',
+        'image': 'assets/imgChiNhanh/chinhanh7.jpg',
+      },
+      {
+        'name': 'Chi nhánh 8',
+        'address': 'Số 35 Nguyễn Thái Bình, Q.1',
+        'image': 'assets/imgChiNhanh/chinhanh8.jpeg',
+      },
+      {
+        'name': 'Chi nhánh 9',
+        'address': 'Số 60 Trường Chinh, P.Tân Thới Nhất, Q.12',
+        'image': 'assets/imgChiNhanh/chinhanh9.jpg',
+      },
+      {
+        'name': 'Chi nhánh 10',
+        'address': 'Số 45 Lê Văn Việt, P.Hiệp Phú, Q.9',
+        'image': 'assets/imgChiNhanh/chinhanh10.jpg',
+      },
+      {
+        'name': 'Chi nhánh 11',
+        'address': 'Số 32 Nguyễn Thị Thập, Q.7',
+        'image': 'assets/imgChiNhanh/chinhanh11.jpg',
+      },
+      {
+        'name': 'Chi nhánh 12',
+        'address': 'Số 81 Âu Cơ, Q.Tân Bình',
+        'image': 'assets/imgChiNhanh/chinhanh12.jpg',
+      },
+      {
+        'name': 'Chi nhánh 13',
+        'address': 'Số 22 Dương Bá Trạc, Q.8',
+        'image': 'assets/imgChiNhanh/chinhanh13.webp',
+      },
+      {
+        'name': 'Chi nhánh 14',
+        'address': 'Số 10 Nguyễn Tri Phương, Q.5',
+        'image': 'assets/imgChiNhanh/chinhanh14.webp',
+      },
+      {
+        'name': 'Chi nhánh 15',
+        'address': 'Số 100 Nguyễn Thị Minh Khai, Q.3',
+        'image': 'assets/imgChiNhanh/chinhanh15.jpg',
       },
     ];
 

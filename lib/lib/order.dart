@@ -44,14 +44,11 @@ class _OrderPageState extends State<OrderPage> {
               widget.name,
               style: const TextStyle(
                 fontWeight: FontWeight.w600,
-                color: Colors.white, // Màu trắng cho tiêu đề
+                color: Colors.white,
               ),
             ),
             leading: IconButton(
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Colors.white, // Màu trắng cho icon quay lại
-              ),
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
               onPressed: () => Navigator.pop(context),
             ),
           ),

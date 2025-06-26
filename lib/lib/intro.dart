@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:app_dat_ban/lib/home.dart'; // Đừng quên import HomeScreen hoặc trang bạn muốn chuyển tới
+import 'package:app_dat_ban/lib/home.dart';
 
 class IntroPage extends StatefulWidget {
   const IntroPage({super.key});

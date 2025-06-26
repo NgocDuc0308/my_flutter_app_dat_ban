@@ -1,8 +1,68 @@
 import 'package:app_dat_ban/lib/login.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
+
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  final _formKey = GlobalKey<FormState>();
+
+  final _fullNameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Gán dữ liệu giả lập mặc định
+    _fullNameController.text = 'Nguyen Van B';
+    _emailController.text = 'test@gmail.com';
+    _passwordController.text = 'Test@1234';
+    _confirmPasswordController.text = 'Test@1234';
+  }
+
+  String? _validatePassword(String value) {
+    final passwordRegex = RegExp(
+      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$',
+    );
+    if (!passwordRegex.hasMatch(value)) {
+      return 'Mật khẩu cần ít nhất 8 ký tự gồm hoa, thường, số và ký tự đặc biệt';
+    }
+    return null;
+  }
+
+  Future<void> _validateAndRegister() async {
+    if (_formKey.currentState!.validate()) {
+      final fullName = _fullNameController.text.trim();
+      final email = _emailController.text.trim();
+      final password = _passwordController.text;
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('registered_fullname', fullName);
+      await prefs.setString('registered_email', email);
+      await prefs.setString('registered_password', password);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Đăng ký thành công'),
+          backgroundColor: Colors.green,
+        ),
+      );
+
+      Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+        );
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,74 +72,93 @@ class RegisterPage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          // Lớp 1: Nền màu đỏ ở phía sau
           _buildRedBackground(screenHeight),
-
-          // Lớp 2: Form đăng ký màu trắng
           SingleChildScrollView(
             child: Column(
               children: [
-                // Khoảng trống trong suốt ở trên cùng để đẩy form xuống
-                SizedBox(height: screenHeight * 0.18),
-
-                // Container chứa toàn bộ form trắng
+                SizedBox(height: screenHeight * 0.15),
                 Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16.0),
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(40.0),
                       topRight: Radius.circular(40.0),
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 10,
-                        offset: Offset(0, -2),
-                      ),
-                    ],
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 30.0,
                       vertical: 40.0,
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        // Logo
-                        _buildLogo(),
-                        const SizedBox(height: 30),
-
-                        // Form fields
-                        _buildTextField(label: 'Họ tên', hint: 'Họ tên'),
-                        const SizedBox(height: 20),
-                        _buildTextField(
-                          label: 'Email',
-                          hint: 'abc@gmail.com',
-                          keyboardType: TextInputType.emailAddress,
-                        ),
-                        const SizedBox(height: 20),
-                        _buildTextField(
-                          label: 'Mật khẩu',
-                          hint: '********',
-                          obscureText: true,
-                        ),
-                        const SizedBox(height: 20),
-                        _buildTextField(
-                          label: 'Xác nhận mật khẩu',
-                          hint: '********',
-                          obscureText: true,
-                        ),
-                        const SizedBox(height: 40),
-
-                        // Nút Đăng ký
-                        _buildRegisterButton(),
-                        const SizedBox(height: 30),
-
-                        // Link Đăng nhập
-                        _buildLoginLink(context),
-                      ],
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          _buildLogo(),
+                          const SizedBox(height: 20),
+                          _buildTextField(
+                            controller: _fullNameController,
+                            label: 'Họ tên',
+                            hint: 'Họ tên',
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return 'Vui lòng nhập họ tên';
+                              } else if (value.length > 50) {
+                                return 'Họ tên tối đa 50 ký tự';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          _buildTextField(
+                            controller: _emailController,
+                            label: 'Email',
+                            hint: 'abc@gmail.com',
+                            keyboardType: TextInputType.emailAddress,
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return 'Vui lòng nhập email';
+                              } else if (!value.endsWith('@gmail.com')) {
+                                return 'Email phải kết thúc bằng @gmail.com';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          _buildTextField(
+                            controller: _passwordController,
+                            label: 'Mật khẩu',
+                            hint: '********',
+                            obscureText: true,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Vui lòng nhập mật khẩu';
+                              }
+                              return _validatePassword(value);
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          _buildTextField(
+                            controller: _confirmPasswordController,
+                            label: 'Xác nhận mật khẩu',
+                            hint: '********',
+                            obscureText: true,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Vui lòng xác nhận mật khẩu';
+                              } else if (value != _passwordController.text) {
+                                return 'Xác nhận mật khẩu không khớp';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 30),
+                          _buildRegisterButton(),
+                          const SizedBox(height: 20),
+                          _buildLoginLink(context),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -91,55 +170,33 @@ class RegisterPage extends StatelessWidget {
     );
   }
 
-  /// Widget xây dựng nền đỏ phía trên
   Widget _buildRedBackground(double screenHeight) {
     return Container(
       height: screenHeight * 0.35,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            Color(0xFFB71C1C), // Màu đỏ đậm
-            Color(0xFFE53935), // Màu đỏ tươi
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+          colors: [Color(0xFF6E0000), Color(0xFFFF2323)],
         ),
       ),
     );
   }
 
-  /// Widget xây dựng logo
   Widget _buildLogo() {
-    return const Column(
-      children: [
-        // Đây là phần logo, bạn có thể thay bằng Image.asset nếu có file ảnh
-        Text(
-          'SeatMe',
-          style: TextStyle(
-            color: Color(0xFFE53935),
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
-            height: 1.0,
-          ),
-        ),
-        Text(
-          'ĐẶT BÀN ONLINE',
-          style: TextStyle(
-            color: Color(0xFFE53935),
-            fontSize: 12,
-            letterSpacing: 1.5,
-          ),
-        ),
-      ],
+    return Image.asset(
+      'assets/images/logo3x2.png',
+      width: 150,
+      height: 150,
+      fit: BoxFit.contain,
     );
   }
 
-  /// Widget tái sử dụng để tạo các trường nhập liệu
   Widget _buildTextField({
+    required TextEditingController controller,
     required String label,
     required String hint,
     bool obscureText = false,
     TextInputType keyboardType = TextInputType.text,
+    String? Function(String?)? validator,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,19 +210,19 @@ class RegisterPage extends StatelessWidget {
           ),
         ),
         TextFormField(
+          controller: controller,
           obscureText: obscureText,
           keyboardType: keyboardType,
+          validator: validator,
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: TextStyle(color: Colors.grey.shade400),
-            // Sử dụng UnderlineInputBorder để chỉ có gạch chân
             enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.grey.shade300),
             ),
             focusedBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Color(0xFFE53935)),
             ),
-            // Xóa bỏ khoảng trống mặc định để field gần với label hơn
             contentPadding: const EdgeInsets.only(top: 10, bottom: 5),
           ),
         ),
@@ -173,12 +230,9 @@ class RegisterPage extends StatelessWidget {
     );
   }
 
-  /// Widget xây dựng nút Đăng ký
   Widget _buildRegisterButton() {
     return ElevatedButton(
-      onPressed: () {
-        // TODO: Thêm logic đăng ký
-      },
+      onPressed: _validateAndRegister,
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
@@ -188,13 +242,11 @@ class RegisterPage extends StatelessWidget {
         ),
       ),
       child: Ink(
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFFB71C1C), Color(0xFFE53935)],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF6E0000), Color(0xFFFF2323)],
           ),
-          borderRadius: BorderRadius.circular(30.0),
+          borderRadius: BorderRadius.all(Radius.circular(30.0)),
         ),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 16),
@@ -212,7 +264,6 @@ class RegisterPage extends StatelessWidget {
     );
   }
 
-  /// Widget xây dựng link chuyển sang trang Đăng nhập
   Widget _buildLoginLink(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -220,10 +271,9 @@ class RegisterPage extends StatelessWidget {
         const Text("Bạn đã có mật khẩu ", style: TextStyle(color: Colors.grey)),
         GestureDetector(
           onTap: () {
-            // TODO: Thêm logic điều hướng về trang đăng nhập
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => LoginPage()),
+              MaterialPageRoute(builder: (context) => const LoginPage()),
             );
           },
           child: const Text(
