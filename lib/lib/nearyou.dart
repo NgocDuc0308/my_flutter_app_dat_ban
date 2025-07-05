@@ -1,3 +1,4 @@
+import 'package:app_dat_ban/lib/map.dart';
 import 'package:flutter/material.dart';
 
 class NearYouPage extends StatelessWidget {
@@ -7,12 +8,9 @@ class NearYouPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
         elevation: 0,
         backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
       ),
       backgroundColor: Colors.white,
       body: Center(
@@ -21,7 +19,6 @@ class NearYouPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Icon vị trí
               Container(
                 width: 100,
                 height: 100,
@@ -36,16 +33,12 @@ class NearYouPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-
-              // Dòng mô tả
               const Text(
                 'Vui lòng cho phép ứng dụng truy cập vị trí\nđể tìm địa điểm xung quanh bạn',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.grey, fontSize: 15),
               ),
               const SizedBox(height: 30),
-
-              // Nút "Thay đổi"
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -66,13 +59,14 @@ class NearYouPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-
-              // Nút "Nhập vị trí"
               SizedBox(
                 width: double.infinity,
                 child: OutlinedButton(
                   onPressed: () {
-                    // TODO: xử lý nhập vị trí
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MapPage()),
+                    );
                   },
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Color(0xFFE53935),

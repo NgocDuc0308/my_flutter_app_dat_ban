@@ -1,21 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:app_dat_ban/lib/account.dart';
+import 'package:app_dat_ban/lib/page/accountsettings.dart';
 import 'package:app_dat_ban/lib/nearyou.dart';
 import 'package:app_dat_ban/lib/search.dart';
+import 'package:app_dat_ban/lib/more.dart';
 import 'package:app_dat_ban/lib/detailchinhanh.dart';
 import 'package:app_dat_ban/lib/detail/allchinhanh.dart';
-
-class MorePage extends StatelessWidget {
-  const MorePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Thêm')),
-      body: const Center(child: Text('Đây là trang Thêm')),
-    );
-  }
-}
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -26,14 +17,28 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  List<Widget> _widgetOptions = [];
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomeContent(),
-    NearYouPage(),
-    SearchPage(),
-    AccountPage(),
-    MorePage(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _checkLoginStatus();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final loggedIn = prefs.getBool('is_logged_in') ?? false;
+
+    setState(() {
+      _widgetOptions = <Widget>[
+        const HomeContent(),
+        const NearYouPage(),
+        const SearchPage(),
+        loggedIn ? const Account() : const AccountPage(),
+        const MorePage(),
+      ];
+    });
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -43,6 +48,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (_widgetOptions.isEmpty) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
     return Scaffold(
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: Container(
@@ -98,28 +107,28 @@ class _HomeContentState extends State<HomeContent> {
   final List<Map<String, String>> branches = [
     {
       'image': 'assets/imgChiNhanh/chinhanh1.jpg',
-      'name': 'Chi nhánh 1',
-      'address': 'Số 11 Nguyễn Văn Quá, P. Đông Hưng Thuận, Q.12',
+      'name': 'Chi nhánh Bến Thành',
+      'address': '121 Lê Thánh Tôn, P. Bến Thành, Q.1, TP.HCM',
     },
     {
       'image': 'assets/imgChiNhanh/chinhanh2.jpg',
-      'name': 'Chi nhánh 2',
-      'address': 'Số 23 Chế Lan Viên, P. Tây Thạnh, Q. Tân Phú',
+      'name': 'Chi nhánh Phú Nhuận',
+      'address': '124 Phan Xích Long, P.2, Q. Phú Nhuận, TP.HCM',
     },
     {
       'image': 'assets/imgChiNhanh/chinhanh3.png',
-      'name': 'Chi nhánh 3',
-      'address': 'Số 62 Hoàng Văn Thụ, P. Đông Hưng Thuận, Q.3',
+      'name': 'Chi nhánh Tân Phú',
+      'address': '245 Tân Sơn Nhì, P. Tân Sơn Nhì, Q. Tân Phú, TP.HCM',
     },
     {
       'image': 'assets/imgChiNhanh/chinhanh4.png',
-      'name': 'Chi nhánh 4',
-      'address': 'Số 38 Lý Tự Trọng, P. Đông Hưng Thuận, Q.10',
+      'name': 'Chi nhánh Thủ Đức',
+      'address': '56 Võ Văn Ngân, P. Linh Chiểu, TP. Thủ Đức, TP.HCM',
     },
     {
       'image': 'assets/imgChiNhanh/chinhanh5.png',
-      'name': 'Chi nhánh 5',
-      'address': 'Số 42 Quang Trung, P. Đông Hưng Thuận, Q.Tân Phú',
+      'name': 'Chi nhánh Gò Vấp',
+      'address': '450 Quang Trung, P.10, Q. Gò Vấp, TP.HCM',
     },
   ];
 

@@ -1,8 +1,41 @@
-import 'package:app_dat_ban/lib/login.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:app_dat_ban/lib/page/accountsettings.dart';
+import 'package:app_dat_ban/lib/login.dart';
 
-class AccountPage extends StatelessWidget {
+class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
+
+  @override
+  State<AccountPage> createState() => _AccountPageState();
+}
+
+class _AccountPageState extends State<AccountPage> {
+  @override
+  void initState() {
+    super.initState();
+    _checkLoginStatus();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _checkLoginStatus();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final loggedIn = prefs.getBool('is_logged_in') ?? false;
+
+    if (loggedIn) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Account()),
+        );
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -10,14 +43,11 @@ class AccountPage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header: Đăng nhập
           Container(
             width: double.infinity,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [Color(0xFF6E0000), Color(0xFFFF2323)],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
               ),
             ),
             child: SafeArea(
@@ -35,7 +65,9 @@ class AccountPage extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => LoginPage()),
+                          MaterialPageRoute(
+                            builder: (context) => const LoginPage(),
+                          ),
                         );
                       },
                       style: OutlinedButton.styleFrom(
@@ -59,7 +91,6 @@ class AccountPage extends StatelessWidget {
             ),
           ),
 
-          // Danh sách mục cố định
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Column(
@@ -83,7 +114,7 @@ class AccountPage extends StatelessWidget {
       title: Text(title),
       trailing: const Icon(Icons.chevron_right),
       onTap: () {
-        // TODO: xử lý khi nhấn vào từng mục
+        // Xử lý chuyển trang sau
       },
     );
   }

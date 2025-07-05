@@ -46,8 +46,6 @@ class SearchPage extends StatelessWidget {
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [Color(0xFF6E0000), Color(0xFFFF2323)],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
               ),
             ),
             child: SafeArea(

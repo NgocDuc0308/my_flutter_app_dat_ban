@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'payment.dart';
 
 class OrderPage extends StatefulWidget {
   final String imagePath;
@@ -24,6 +25,38 @@ class _OrderPageState extends State<OrderPage> {
   final TextEditingController noteController = TextEditingController();
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
+
+  void _navigateToPayment() {
+    if (selectedDate != null && selectedTime != null) {
+      final DateTime arriveTime = DateTime(
+        selectedDate!.year,
+        selectedDate!.month,
+        selectedDate!.day,
+        selectedTime!.hour,
+        selectedTime!.minute,
+      );
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Payment(
+            imagePath: widget.imagePath,
+            name: widget.name,
+            address: widget.address,
+            fullName: nameController.text,
+            email: emailController.text,
+            phone: phoneController.text,
+            quantity: soGhe,
+            arriveTime: arriveTime,
+          ),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Vui lòng chọn ngày và giờ đến.')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -228,9 +261,7 @@ class _OrderPageState extends State<OrderPage> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: ElevatedButton(
-                        onPressed: () {
-                          // TODO: xử lý đặt bàn
-                        },
+                        onPressed: _navigateToPayment,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.transparent,
                           shadowColor: Colors.transparent,

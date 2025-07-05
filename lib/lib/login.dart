@@ -1,7 +1,7 @@
-import 'package:app_dat_ban/lib/home.dart';
 import 'package:app_dat_ban/lib/register.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:app_dat_ban/lib/home.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -23,9 +23,14 @@ class _LoginPageState extends State<LoginPage> {
     final enteredPassword = _passwordController.text;
 
     if (enteredEmail == savedEmail && enteredPassword == savedPassword) {
-      Navigator.pushReplacement(
+      // ✅ CHỈ ghi khi thông tin hợp lệ
+      await prefs.setBool('is_logged_in', true);
+      await prefs.setString('current_email', enteredEmail);
+
+      Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => const HomePage()),
+        (route) => false,
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

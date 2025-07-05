@@ -9,6 +9,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  geocoding: ^4.0.0
+  google_maps_flutter: ^2.6.0
+  intl: ^0.20.2
   shared_preferences: ^2.2.2
 
 dev_dependencies:
@@ -22,3 +27,4 @@ flutter:
     - assets/images/
     - assets/imgChiNhanh/
     - assets/imgUuDai/
+    - assets/imgPayment/
